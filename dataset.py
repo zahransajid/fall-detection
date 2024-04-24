@@ -87,7 +87,7 @@ class IMUDataset(torch.utils.data.Dataset):
 
 if __name__ == '__main__':
     dl = IMUDataset([
-        r"C:\Users\zahra\Desktop\VitSem6\Signals\code\SFU-IMU Dataset\IMU Dataset\sub2\ADLs\TXI_DSS_trial1.xlsx",
+        r"SFU-IMU Dataset\IMU Dataset\sub2\ADLs\TXI_DSS_trial1.xlsx",
     ])
     for x in dl:
         print(x)
