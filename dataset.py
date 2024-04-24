@@ -7,11 +7,11 @@ from preprocess import Preprocessor
 
 
 class IMUDataset(torch.utils.data.Dataset):
-    def __init__(self, data_paths: List[str], generate_labels : bool =True):
+    def __init__(self, data_paths: List[str], generate_labels: bool = True):
         self.data_paths = data_paths
         self.generate_labels = generate_labels
         for path in self.data_paths:
-            assert (path.endswith(".xlsx"))
+            assert path.endswith(".xlsx")
         self.PAD_LENGTH = 3000
         self._len = len(self.data_paths)
         self.preprocessor = Preprocessor()
@@ -58,36 +58,41 @@ class IMUDataset(torch.utils.data.Dataset):
             ],
         ]
         self.N_CHANNELS = len(self.TO_EXTRACT)
+
     def __len__(self):
         return self._len
-    def __getitem__(self, index : int):
+
+    def __getitem__(self, index: int):
         path = self.data_paths[index]
         df = pd.read_excel(path)
         ret = []
         for channel in self.TO_EXTRACT:
             arr = df[channel].to_numpy()
-            arr = np.linalg.norm(arr,ord=2,axis=1)
+            arr = np.linalg.norm(arr, ord=2, axis=1)
             arr = self.preprocessor.process(arr)
-            if(len(arr) > self.PAD_LENGTH):
-                arr = arr[:self.PAD_LENGTH]
-            arr = arr.tolist() + [0]*(self.PAD_LENGTH - len(arr))
+            if len(arr) > self.PAD_LENGTH:
+                arr = arr[: self.PAD_LENGTH]
+            arr = arr.tolist() + [0] * (self.PAD_LENGTH - len(arr))
             ret.append(arr)
-        if(self.generate_labels):
+        if self.generate_labels:
             labels = {
-                "Near_Falls" : "Near_Falls" in path,
-                "Falls" : "Falls" in path,
-                "ADLs": "ADLs" in path
+                "Near_Falls": "Near_Falls" in path,
+                "Falls": "Falls" in path,
+                "ADLs": "ADLs" in path,
             }
             for l in labels.keys():
-                if(labels[l]):
-                    return (l,torch.tensor(ret))
+                if labels[l]:
+                    return (l, torch.tensor(ret))
             raise Exception("Could not find label from path")
         else:
             return torch.tensor(ret)
 
-if __name__ == '__main__':
-    dl = IMUDataset([
-        r"SFU-IMU Dataset\IMU Dataset\sub2\ADLs\TXI_DSS_trial1.xlsx",
-    ])
+
+if __name__ == "__main__":
+    dl = IMUDataset(
+        [
+            r"SFU-IMU Dataset\IMU Dataset\sub2\ADLs\TXI_DSS_trial1.xlsx",
+        ]
+    )
     for x in dl:
         print(x)
