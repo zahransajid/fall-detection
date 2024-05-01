@@ -13,19 +13,19 @@ if __name__ == "__main__":
     df3 = pd.read_excel("./test_data/AXR_DS_trial2.xlsx")
     used_columns = []
     for c in df1.columns:
-        if "sternum" in c and "m/s" in c:
+        if "sternum" in c and "rad/s" in c:
             used_columns.append(df1[c])
     used_columns = np.array(used_columns, dtype=np.float32)
     abs_vel_1 = np.linalg.norm(used_columns, ord=2, axis=0)
     used_columns = []
     for c in df2.columns:
-        if "sternum" in c and "m/s" in c:
+        if "sternum" in c and "rad/s" in c:
             used_columns.append(df2[c])
     used_columns = np.array(used_columns, dtype=np.float32)
     abs_vel_2 = np.linalg.norm(used_columns, ord=2, axis=0)
     used_columns = []
     for c in df3.columns:
-        if "sternum" in c and "m/s" in c:
+        if "sternum" in c and "rad/s" in c:
             used_columns.append(df3[c])
     used_columns = np.array(used_columns, dtype=np.float32)
     abs_vel_3 = np.linalg.norm(used_columns, ord=2, axis=0)
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     plt.title("Fall")
     plt.subplot(3, 2, 5)
     plt.plot(list(range(len(abs_vel_3))), abs_vel_3)
-    plt.title("Normal data (Processed)")
+    plt.title("Normal data")
     plt.subplot(3, 2, 2)
     plt.plot(list(range(len(abs_vel_1_processed))), abs_vel_1_processed)
     plt.title("Near fall (Processed)")
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     plt.title("Fall (Processed)")
     plt.subplot(3, 2, 6)
     plt.plot(list(range(len(abs_vel_3_processed))), abs_vel_3_processed)
-    plt.title("Normal data")
+    plt.title("Normal data (Processed)")
     plt.show()
     original = DFT_slow(abs_vel_1)
     original = np.real(original)
