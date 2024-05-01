@@ -69,7 +69,7 @@ class IMUDataset(torch.utils.data.Dataset):
         for channel in self.TO_EXTRACT:
             arr = df[channel].to_numpy()
             arr = np.linalg.norm(arr, ord=2, axis=1)
-            arr = self.preprocessor.process(arr)
+            arr = self.preprocessor.process_fast(arr)
             if len(arr) > self.PAD_LENGTH:
                 arr = arr[: self.PAD_LENGTH]
             arr = arr.tolist() + [0] * (self.PAD_LENGTH - len(arr))
