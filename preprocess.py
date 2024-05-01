@@ -18,8 +18,11 @@ def inv_DFT_slow(x):
     return np.dot(M, x)/N
 
 class Preprocessor():
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, length = 3000, *args, **kwargs) -> None:
         self.THRESHOLD = 0.98/2
+        self.LENGTH = length
+        self.mask = [1 if abs(self.LENGTH//2-i) > self.LENGTH*self.THRESHOLD else 0 for i in range(self.LENGTH)]
+        self.mask = np.array(self.mask,dtype=np.float32)
         pass
 
     def process_slow(self, arr):
@@ -31,8 +34,7 @@ class Preprocessor():
         return arr
     def process_fast(self, arr):
         arr = np.fft.fft(arr)
-        N = len(arr)
-        arr = [x if abs(N//2-i) > N*self.THRESHOLD else 0 for i,x in enumerate(arr)]
+        arr = arr*self.mask
         arr[0] = 0
         arr = np.real(np.fft.ifft(arr))
         return arr
