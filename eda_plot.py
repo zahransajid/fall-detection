@@ -7,10 +7,10 @@ from preprocess import Preprocessor, inv_DFT_slow, DFT_slow
 if __name__ == "__main__":
     p = Preprocessor()
     df1 = pd.read_excel(
-        r"SFU-IMU Dataset\IMU Dataset\sub1\Near_Falls\AXR_slip_trial4.xlsx"
+        "./test_data/AXR_slip_trial4.xlsx"
     )
-    df2 = pd.read_excel(r"SFU-IMU Dataset\IMU Dataset\sub1\Falls\AXR_ITCS_trial4.xlsx")
-    df3 = pd.read_excel(r"SFU-IMU Dataset\IMU Dataset\sub1\ADLs\AXR_DS_trial2.xlsx")
+    df2 = pd.read_excel("./test_data/AXR_ITCS_trial4.xlsx")
+    df3 = pd.read_excel("./test_data/AXR_DS_trial2.xlsx")
     used_columns = []
     for c in df1.columns:
         if "sternum" in c and "m/s" in c:
