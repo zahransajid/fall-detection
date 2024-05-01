@@ -7,6 +7,11 @@ __pycache__/
 # C extensions
 *.so
 
+# DL
+
+weights/
+file_list.txt
+
 # Distribution / packaging
 .Python
 build/

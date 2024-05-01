@@ -94,5 +94,5 @@ if __name__ == "__main__":
             r"SFU-IMU Dataset\IMU Dataset\sub2\ADLs\TXI_DSS_trial1.xlsx",
         ]
     )
-    for x in dl:
-        print(x)
+    for label,x in dl:
+        print(x.shape)

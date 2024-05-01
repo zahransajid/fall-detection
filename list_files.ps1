@@ -1,0 +1,1 @@
+Get-ChildItem -Recurse '.\SFU-IMU Dataset'| Where-Object {!$_.PSIsContainer} | ForEach-Object { $_.FullName -replace [regex]::Escape((Get-Location).Path + "\")  } | Out-File -FilePath "file_list.txt"
